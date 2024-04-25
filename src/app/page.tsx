@@ -1,11 +1,12 @@
-import Image from "next/image";
+import CategoriesList from "@/components/CategoriesList";
+import NotesList from "@/components/NotesList";
+import Seacrh from "@/components/Search";
 
 export default function Home() {
   return (
     <>
-      <div className=" flex w-screen h-screen items-center justify-center">
-        <span>landing Page...</span>
-      </div>
+      <CategoriesList />
+      <NotesList />
     </>
   );
 }
