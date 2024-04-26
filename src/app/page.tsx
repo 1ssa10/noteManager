@@ -5,7 +5,7 @@ import Seacrh from "@/components/Search";
 export default function Home() {
   return (
     <>
-      <CategoriesList />
+      <CategoriesList categories={["cat 1", "cat 2", "cat 3", "cat 4"]} />
       <NotesList />
     </>
   );
