@@ -107,7 +107,7 @@ function CreateCom() {
           <span className="w-max my-4">Enter the Note Content</span>
           <textarea
             className=" border-2 border-black w-full px-2 rounded-lg min-h-40 placeholder:text-xs placeholder:text-center  "
-            placeholder="Enter the Note Title"
+            placeholder="Enter the Note Content"
             value={newContent}
             onChange={(e) => setContent(e.target.value)}
           />

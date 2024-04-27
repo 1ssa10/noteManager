@@ -130,3 +130,43 @@ export async function editNote(
     return message;
   }
 }
+export async function editCat(
+  category: string,
+
+  newCategory: string
+) {
+  const url = `http://localhost:3000/api/findCat?category=${category}`;
+  const response = await fetch(url, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ category: newCategory }),
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    return data.message;
+  } else {
+    const message = "Note not Found";
+    return message;
+  }
+}
+
+export const fetchExistCat = async (category: string) => {
+  const url = `http://localhost:3000/api/findCat?category=${category}`;
+
+  try {
+    const response = await fetch(url, {
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to filtered notes");
+    }
+
+    const data = await response.json();
+
+    return data.notes;
+  } catch (error) {
+    console.error("Failed to load notes:", error);
+  }
+};
