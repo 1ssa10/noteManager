@@ -8,7 +8,9 @@ import NotesContext from "./NotesContext";
 import {
   deletCategory,
   deletNote,
+  editCat,
   editNote,
+  fetchExistCat,
   fetchExistNotes,
 } from "@/backend/GetNodes";
 import Popup from "reactjs-popup";
@@ -32,8 +34,10 @@ function EditCom() {
   const [noteTitle, setNoteTitle] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpen1, setIsOpen1] = useState(false);
+  const [isOpen2, setIsOpen2] = useState(false);
   const [editedTitle, setEditTitle] = useState<string>("");
   const [editedContent, setEditContent] = useState<string>("");
+  const [editedCategory, setEditCategory] = useState<string>("");
 
   const [errors, setErrors] = useState<error>();
 
@@ -93,29 +97,47 @@ function EditCom() {
     category: string,
     title: string,
     newTitle: string,
-    newContent: string
+    newContent: string,
+    newCategory: string
   ) => {
-    if (category == "" || title == "" || newTitle == "" || newContent == "") {
-      setErrors({ valuesNotFound: " make sure to enter all data" });
-    } else {
-      if (title === newTitle) {
-        await editNote(category, title, newTitle, newContent);
-        setEditnote(!editnote);
+    if (editnote) {
+      if (category == "" || title == "" || newTitle == "" || newContent == "") {
+        setErrors({ valuesNotFound: " make sure to enter all data" });
       } else {
-        const data = await fetchExistNotes(category, newTitle);
-        if (data.length > 0) {
-          setErrors({ valuesNotFound: " Title exist" });
-        } else {
+        if (title === newTitle) {
           await editNote(category, title, newTitle, newContent);
           setEditnote(!editnote);
+        } else {
+          const data = await fetchExistNotes(category, newTitle);
+          if (data.length > 0) {
+            setErrors({ valuesNotFound: " Title exist" });
+          } else {
+            await editNote(category, title, newTitle, newContent);
+            setEditnote(!editnote);
+          }
         }
       }
     }
+    if (edit) {
+      if (category == "" || newCategory == "") {
+        setErrors({ valuesNotFound: " make sure to enter all data" });
+      } else {
+        const data = await fetchExistCat(newCategory);
+        if (data.length > 0) {
+          setErrors({ valuesNotFound: " category exist" });
+        } else {
+          await editCat(category, newCategory);
+          setEdit(!edit);
+        }
+      }
+    }
+
     setFactor((prevFactor) => prevFactor + 1);
   };
 
   const closePopup = () => setIsOpen(false);
   const closePopup1 = () => setIsOpen1(false);
+  const closePopup2 = () => setIsOpen2(false);
 
   useEffect(() => {
     setNoteTitle([]);
@@ -169,7 +191,14 @@ function EditCom() {
               <>
                 <span className="w-max my-4">Rename Category </span>
                 <div>
-                  <Textinput placeholder="Enter New Name" name=" categoryNam" />
+                  <Textinput
+                    placeholder="Enter New Name"
+                    name=" categoryNam"
+                    value={editedCategory}
+                    onChange={(e) => {
+                      setEditCategory(e.target.value);
+                    }}
+                  />
                 </div>
               </>
             )}
@@ -236,7 +265,14 @@ function EditCom() {
               text="save"
               type="button"
               onClick={() => {
-                handleUpdate(category, note, editedTitle, editedContent);
+                handleUpdate(
+                  category,
+                  note,
+                  editedTitle,
+                  editedContent,
+                  editedCategory
+                ),
+                  setIsOpen2(true);
               }}
             />
             <Button
@@ -287,6 +323,19 @@ function EditCom() {
             <button
               className=" w-full rounded-lg mx-auto border"
               onClick={closePopup1}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </Popup>
+      <Popup open={isOpen2} onClose={closePopup2} position="right center">
+        <div className=" bg-black rounded-lg text-white px-6 py-4">
+          <h2>Updated</h2>
+          <div className="flex space-x-2">
+            <button
+              className=" w-full rounded-lg mx-auto border"
+              onClick={closePopup2}
             >
               Close
             </button>
