@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import { ref } from "yup";
 interface NoteCardProps {
   title: string;
   content: string;
+  cat: string;
 }
-function NoteCard({ title, content }: NoteCardProps) {
+function NoteCard({ title, content, cat }: NoteCardProps) {
   return (
     <>
       {/* note Container */}
@@ -37,7 +39,7 @@ function NoteCard({ title, content }: NoteCardProps) {
           </div>
 
           {/* Note Content */}
-          <div className="overflow-auto transition-all duration-500 max-h-0 peer-checked:max-h-screen ">
+          <div className="overflow-auto transition-all duration-500 max-h-0 peer-checked:max-h-screen break-words ">
             <div className="p-4 text-xs tracking-normal leading-4  ">
               <p>{content}</p>
             </div>
