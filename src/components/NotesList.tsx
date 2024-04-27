@@ -1,35 +1,36 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import NoteCard from "./utils/NoteCard";
+import NotesContext from "./NotesContext";
+
+interface Note {
+  id: string;
+  title: string;
+  content: string;
+  category?: string;
+}
 
 function NotesList() {
+  const { notes, loading, cat } = useContext(NotesContext);
+
   return (
-    <div className="grid grid-cols-1 w-full gap-4  items-start justify-center mx-auto p-2  md:grid-cols-3 overflow-auto  ">
-      <NoteCard
-        title="Note 1"
-        content="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aspernatur nam sed quia maxime consequatur enim modi provident eligendi odit officiis!"
-      />
-      <NoteCard
-        title="Note 2"
-        content="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aspernatur nam sed quia maxime consequatur enim modi provident eligendi odit officiis! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aspernatur nam sed quia maxime consequatur enim modi provident eligendi odit officiis! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aspernatur nam sed quia maxime consequatur enim modi provident eligendi odit officiis! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aspernatur nam sed quia maxime consequatur enim modi provident eligendi odit officiis!"
-      />
-      <NoteCard
-        title="Note 3"
-        content="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aspernatur nam sed quia maxime consequatur enim modi provident eligendi odit officiis!"
-      />
-      <NoteCard
-        title="Note 4"
-        content="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aspernatur nam sed quia maxime consequatur enim modi provident eligendi odit officiis!"
-      />
-      <NoteCard
-        title="Note 5"
-        content="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aspernatur nam sed quia maxime consequatur enim modi provident eligendi odit officiis!"
-      />
-      <NoteCard
-        title="Note 6"
-        content="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aspernatur nam sed quia maxime consequatur enim modi provident eligendi odit officiis!"
-      />
-    </div>
+    <>
+      {cat ? <div>{cat}</div> : <div>All</div>}
+      <div className="grid grid-cols-1 w-full gap-4  items-start justify-center mx-auto p-2  md:grid-cols-3 overflow-auto  ">
+        {loading ? (
+          <p>Loading notes...</p>
+        ) : (
+          notes.map((note: Note, index: number) => (
+            <NoteCard
+              key={index}
+              title={note.title}
+              content={note.content}
+              cat={cat}
+            />
+          ))
+        )}
+      </div>
+    </>
   );
 }
 
