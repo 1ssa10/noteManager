@@ -1,6 +1,6 @@
 export const fetchNotes = async () => {
   try {
-    const response = await fetch("http://localhost:3000/api/notes", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/notes`, {
       cache: "no-store",
     });
 
@@ -17,7 +17,7 @@ export const fetchNotes = async () => {
 export const fetchFilteredNotes = async (category: string) => {
   try {
     const response = await fetch(
-      `http://localhost:3000/api/filterednotes/${category}`,
+      `${process.env.NEXT_PUBLIC_URL_API}/filterednotes/${category}`,
       {
         cache: "no-store",
       }
@@ -36,7 +36,7 @@ export const fetchFilteredNotes = async (category: string) => {
 };
 
 export const fetchExistNotes = async (category: string, title: string) => {
-  const url = `http://localhost:3000/api/findExist?category=${category}&title=${title}`;
+  const url = `${process.env.NEXT_PUBLIC_URL_API}/findExist?category=${category}&title=${title}`;
 
   try {
     const response = await fetch(url, {
@@ -60,7 +60,7 @@ export const createNewNote = async (
   content: string,
   category: string
 ) => {
-  const response = await fetch("http://localhost:3000/api/notes", {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/notes`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ title, content, category }),
@@ -76,7 +76,7 @@ export const createNewNote = async (
 };
 
 export const deletNote = async (category: string, title: string) => {
-  const url = `http://localhost:3000/api/deleteNote?category=${category}&title=${title}`;
+  const url = `${process.env.REACT_APP_URL_API}/deleteNote?category=${category}&title=${title}`;
 
   try {
     const response = await fetch(url, {
@@ -93,7 +93,7 @@ export const deletNote = async (category: string, title: string) => {
 };
 
 export const deletCategory = async (category: string) => {
-  const url = `http://localhost:3000/api/deleteCat?category=${category}`;
+  const url = `${process.env.NEXT_PUBLIC_URL_API}/deleteCat?category=${category}`;
 
   try {
     const response = await fetch(url, {
@@ -115,7 +115,7 @@ export async function editNote(
   newTitle: string,
   newContent: string
 ) {
-  const url = `http://localhost:3000/api/updateNote?category=${category}&title=${title}`;
+  const url = `${process.env.NEXT_PUBLIC_URL_API}/updateNote?category=${category}&title=${title}`;
   const response = await fetch(url, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
@@ -135,7 +135,7 @@ export async function editCat(
 
   newCategory: string
 ) {
-  const url = `http://localhost:3000/api/findCat?category=${category}`;
+  const url = `${process.env.NEXT_PUBLIC_URL_API}/findCat?category=${category}`;
   const response = await fetch(url, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
@@ -152,7 +152,7 @@ export async function editCat(
 }
 
 export const fetchExistCat = async (category: string) => {
-  const url = `http://localhost:3000/api/findCat?category=${category}`;
+  const url = `${process.env.NEXT_PUBLIC_URL_API}/findCat?category=${category}`;
 
   try {
     const response = await fetch(url, {
