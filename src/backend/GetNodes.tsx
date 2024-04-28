@@ -2,7 +2,6 @@ export const fetchNotes = async () => {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/notes`, {
       cache: "no-store",
-      mode: "no-cors",
     });
 
     if (!response.ok) {
@@ -21,7 +20,6 @@ export const fetchFilteredNotes = async (category: string) => {
       `${process.env.NEXT_PUBLIC_URL_API}/filterednotes/${category}`,
       {
         cache: "no-store",
-        mode: "no-cors",
       }
     );
 
@@ -43,7 +41,6 @@ export const fetchExistNotes = async (category: string, title: string) => {
   try {
     const response = await fetch(url, {
       cache: "no-store",
-      mode: "no-cors",
     });
 
     if (!response.ok) {
@@ -67,7 +64,6 @@ export const createNewNote = async (
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ title, content, category }),
-    mode: "no-cors",
   });
 
   if (response.ok) {
@@ -80,15 +76,14 @@ export const createNewNote = async (
 };
 
 export const deletNote = async (category: string, title: string) => {
-  const url = `${process.env.REACT_APP_URL_API}/deleteNote?category=${category}&title=${title}`;
+  const url = `${process.env.NEXT_PUBLIC_URL_API}/deleteNote?category=${category}&title=${title}`;
 
   try {
     const response = await fetch(url, {
       method: "DELETE",
       cache: "no-cache",
-      mode: "no-cors",
     });
-
+    console.log("hello");
     if (!response.ok) {
       throw new Error("Failed to delete note");
     }
@@ -104,7 +99,6 @@ export const deletCategory = async (category: string) => {
     const response = await fetch(url, {
       method: "DELETE",
       cache: "no-cache",
-      mode: "no-cors",
     });
 
     if (!response.ok) {
@@ -126,7 +120,6 @@ export async function editNote(
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ title: newTitle, content: newContent }),
-    mode: "no-cors",
   });
 
   if (response.ok) {
@@ -147,7 +140,6 @@ export async function editCat(
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ category: newCategory }),
-    mode: "no-cors",
   });
 
   if (response.ok) {
@@ -165,7 +157,6 @@ export const fetchExistCat = async (category: string) => {
   try {
     const response = await fetch(url, {
       cache: "no-store",
-      mode: "no-cors",
     });
 
     if (!response.ok) {
