@@ -1,6 +1,5 @@
 "use client";
 import { fetchFilteredNotes, fetchNotes } from "@/backend/GetNodes";
-import { set } from "mongoose";
 
 import React, {
   createContext,
@@ -9,7 +8,6 @@ import React, {
   Dispatch,
   SetStateAction,
 } from "react";
-import { date } from "yup";
 
 interface Note {
   id: string;
@@ -53,7 +51,7 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
     const fetchingNodes = async () => {
       setLoading(true);
       const data = await fetchNotes();
-      data.filter(
+      data?.filter(
         (item: Note) => {
           if (!uniqueCategories.includes(item.category)) {
             uniqueCategories.push(item.category);
@@ -63,7 +61,7 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
         },
         [factor]
       );
-      if (data.length > 0) {
+      if (data?.length > 0) {
         setNotes(data);
       }
 
